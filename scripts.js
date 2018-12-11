@@ -5,6 +5,19 @@ let whosTurn = 1;
 // onto the appropirate array
 let player1Squares = [];
 let player2Squares = [];
+// Array of all winning combos
+const winningCombos = [
+    ['A1','B1','C1'], //row 1
+    ['A2','B2','C2'], //row 2
+    ['A3','B3','C3'], //row 3
+    ['A1','A2','A3'], //Col 1
+    ['B1','B2','B3'], //Col 2
+    ['C1','C2','C3'], //Col 3
+    ['A1','B2','C3'], //Diag 1
+    ['A3','B2','C1'], //Diag 2
+]
+
+
 
 // console.log(this); // window
 
@@ -51,11 +64,13 @@ for(let i = 0; i < squares.length; i++){
                 // Update the DOM
                 document.getElementById('message').innerHTML = "It's O's turn"
                 player1Squares.push(this.id)
+                checkWin(player1Squares,1)
             }else{
                 this.innerHTML = "O";
                 whosTurn = 1;
                 document.getElementById('message').innerHTML = "It's X's turn"
                 player2Squares.push(this.id)
+                checkWin(player2Squares,2)
             }
         }else{
             document.getElementById('message').innerHTML = "Sorry, that square is taken"
@@ -63,4 +78,31 @@ for(let i = 0; i < squares.length; i++){
         console.log(player1Squares)
         console.log(player2Squares)
     })
+}
+
+function checkWin(playerSquares, whoMarked){
+    console.log("Checking to see who won...")
+    // console.log(playerSquares);
+    // console.log(whoMarked)
+    // we know who just went (whoMarked)
+    // and we know what squares they have (playerSquares)
+    // Outer Loop - Check each winning combination
+    for(let i = 0; i < winningCombos.length; i++){
+        // keep track of how many squares in THIS combo
+        let squareCount = 0
+        // Inner Loop - Check each square inside of THIS winning combo
+        // winningCombos[i] = the winningCombo we are on (3 squares)
+        for(let j = 0; j < winningCombos[i].length; j++){
+            // winningCombos[i][j] = the square in the winningCombo we are on
+            const winningSquare = winningCombos[i][j];
+            if(playerSquares.includes(winningSquare)){
+                // player has this square!!!
+                squareCount++;
+            }
+        }
+        if(squareCount === 3){
+            console.log("Player won")
+            console.log(winningCombos[i]);
+        }
+    }
 }
