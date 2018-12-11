@@ -16,6 +16,7 @@ const winningCombos = [
     ['A1','B2','C3'], //Diag 1
     ['A3','B2','C1'], //Diag 2
 ]
+let gameOn = true;
 
 
 
@@ -53,30 +54,32 @@ for(let i = 0; i < squares.length; i++){
         // EVERY JS event, will give you the event object
         // console.log(event)
         console.dir(this);
-        // Check to see if the square is taken...
-        if(this.innerHTML === "-"){
-            // it's not taken, so see whos turn it is
-            if(whosTurn === 1){
-                // its player 1, put an X, and give 
-                // control to O
-                this.innerHTML = "X"; // Update the DOM
-                whosTurn = 2; // Update JS
-                // Update the DOM
-                document.getElementById('message').innerHTML = "It's O's turn"
-                player1Squares.push(this.id)
-                checkWin(player1Squares,1)
+        if(gameOn){
+            // Check to see if the square is taken...
+            if(this.innerHTML === "-"){
+                // it's not taken, so see whos turn it is
+                if(whosTurn === 1){
+                    // its player 1, put an X, and give 
+                    // control to O
+                    this.innerHTML = "X"; // Update the DOM
+                    whosTurn = 2; // Update JS
+                    // Update the DOM
+                    document.getElementById('message').innerHTML = "It's O's turn"
+                    player1Squares.push(this.id)
+                    checkWin(player1Squares,1)
+                }else{
+                    this.innerHTML = "O";
+                    whosTurn = 1;
+                    document.getElementById('message').innerHTML = "It's X's turn"
+                    player2Squares.push(this.id)
+                    checkWin(player2Squares,2)
+                }
             }else{
-                this.innerHTML = "O";
-                whosTurn = 1;
-                document.getElementById('message').innerHTML = "It's X's turn"
-                player2Squares.push(this.id)
-                checkWin(player2Squares,2)
+                document.getElementById('message').innerHTML = "Sorry, that square is taken"
             }
-        }else{
-            document.getElementById('message').innerHTML = "Sorry, that square is taken"
+            console.log(player1Squares)
+            console.log(player2Squares)
         }
-        console.log(player1Squares)
-        console.log(player2Squares)
     })
 }
 
@@ -101,8 +104,23 @@ function checkWin(playerSquares, whoMarked){
             }
         }
         if(squareCount === 3){
-            console.log("Player won")
-            console.log(winningCombos[i]);
+            // console.log("Player won")
+            // console.log(winningCombos[i]);
+            endGame(winningCombos[i], whoMarked)
         }
+    }
+}
+
+function endGame(winningCombo,whoWon){
+    gameOn = false;
+    // if we get to endGame... WINNER WINNER, CHICKEN DINNER
+    // so the game is over
+    document.querySelector('#message').innerHTML = `Congrats to player ${whoWon}`
+    // we know which squares are the winning squares
+    for(let i = 0; i < winningCombo.length; i++){
+        let winningSquare = winningCombo[i];
+        let squareElem = document.getElementById(winningSquare);
+        console.dir(squareElem)
+        squareElem.className += " winning-square"
     }
 }
