@@ -10,6 +10,10 @@
 </head>
 <body>
 
+    <form onsubmit="enterName(event)">
+        <input id="name" type="text" placeholder="Enter your name" />
+    </form>
+
     <!-- a message div, to hold messages we need to give to the player -->
     <div id="message">It's X's Turn</div>
 
@@ -38,7 +42,8 @@
         </div>
     </div>
 
-    
+    <button id="reset" onclick="reset()">Reset Game</button>
+
     <script src="scripts.js"></script>
 </body>
 </html>

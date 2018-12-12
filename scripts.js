@@ -17,7 +17,8 @@ const winningCombos = [
     ['A3','B2','C1'], //Diag 2
 ]
 let gameOn = true;
-
+let player1Score = 0;
+let player2Score = 0;
 
 
 // console.log(this); // window
@@ -106,6 +107,11 @@ function checkWin(playerSquares, whoMarked){
         if(squareCount === 3){
             // console.log("Player won")
             // console.log(winningCombos[i]);
+            if(whoMarked === 1){
+                player1Score++;
+            }else{
+                player2Score++;
+            }
             endGame(winningCombos[i], whoMarked)
         }
     }
@@ -123,4 +129,32 @@ function endGame(winningCombo,whoWon){
         console.dir(squareElem)
         squareElem.className += " winning-square"
     }
+}
+
+function reset(){
+    // 1. Get rid of X's and O'x ... go back to -
+    // 2. remove winning class
+    for(let i = 0; i < squares.length; i++){
+        squares[i].innerHTML = "-"
+        squares[i].className = "square"
+    }
+    
+    // 3. reset the message (player X won)
+    document.getElementById('message').innerHTML = ""
+    // 4. Reset playerSquare arrays
+    player1Squares = [];    
+    player2Squares = [];
+    // 5. Set whosTurn
+    whosTurn = 1
+    // 6. Reset gameOn to true
+    gameOn = true;
+}
+
+
+function enterName(event){
+    console.log("Submitted form!!!")
+    event.preventDefault();
+    const userName = document.getElementById('name').value
+    console.log(userName)
+
 }
